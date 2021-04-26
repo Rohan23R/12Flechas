@@ -6,14 +6,16 @@ var teclas = {
 };
 
 document.addEventListener("keyup", dibujarTeclado);
+
+
 var cuadrito = document.getElementById("papelito");
 var papel = cuadrito.getContext("2d");
 var x=150;
 var y=150;
 
-dibujarLinea("red", 149, 149, 151, 151, papel);
+dibujarLinea(papel, "red", 149, 149, 151, 151);
 
-function dibujarLinea(color, xinicial, yinicial, xfinal, yfinal, lienzo){
+function dibujarLinea(lienzo, color, xinicial, yinicial, xfinal, yfinal){
     lienzo.beginPath();
     lienzo.strokeStyle =color;
     lienzo.lineWidth =3;
@@ -23,27 +25,62 @@ function dibujarLinea(color, xinicial, yinicial, xfinal, yfinal, lienzo){
     lienzo.closePath();
 }
 
-function dibujarTeclado(evento){
+var colorete = "green";
+var movimiento_sensual = 50;
+
+window.onload =function(){
+document.getElementById("bArr").onclick=dirArriba;
+document.getElementById("bAba").onclick=dirAbajo;
+document.getElementById("bIzq").onclick=dirIzquierda;
+document.getElementById("bDer").onclick=dirDerecha;
+}
+
+function dirArriba(){
+    dibujarLinea(papel, colorete,x,y,x,y-movimiento_sensual);
+    y=y-movimiento_sensual;
+}
+
+function dirAbajo(){    
+    dibujarLinea(papel, colorete,x,y,x,y+movimiento_sensual);
+    y=y+movimiento_sensual;
+}
+
+function dirIzquierda(){
+    dibujarLinea(papel, colorete,x,y,x-movimiento_sensual,y);
+    x=x-movimiento_sensual;
+}
+ 
+function dirDerecha(){
+    dibujarLinea(papel, colorete,x,y,x+movimiento_sensual,y);
+    x=x+movimiento_sensual;
+}
+
+function dibujarTeclado(rocotito){
 
     var colorcito = "blue";
     var movimiento = 50;
 
-    switch(evento.keyCode){
+    function y_arriba(){y=y-movimiento}
+    function y_abajo(){y=y+movimiento}
+    function x_izquierda(){x=x-movimiento}
+    function x_derecha(){x=x+movimiento}
+    
+    switch(rocotito.keyCode){
         case teclas.UP:
-            dibujarLinea(colorcito,x,y,x,y-movimiento, papel);
-            y=y-movimiento;
+            dibujarLinea(papel, colorcito,x,y,x,y-movimiento);
+            y_arriba();
         break;
         case teclas.DOWN:
-            dibujarLinea(colorcito,x,y,x,y+movimiento, papel);
-            y=y+movimiento;
+            dibujarLinea(papel, colorcito,x,y,x,y+movimiento);
+            y_abajo();
         break;
         case teclas.LEFT:
-            dibujarLinea(colorcito,x,y,x-movimiento,y, papel);
-            x=x-movimiento;
+            dibujarLinea(papel, colorcito,x,y,x-movimiento,y);
+            x_izquierda();
         break;
         case teclas.RIGHT:
-            dibujarLinea(colorcito,x,y,x+movimiento,y, papel);
-            x=x+movimiento;
+            dibujarLinea(papel, colorcito,x,y,x+movimiento,y);
+            x_derecha();
         break;  
     }
 }
